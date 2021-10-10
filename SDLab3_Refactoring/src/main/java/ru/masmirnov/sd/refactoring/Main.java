@@ -7,27 +7,17 @@ import ru.masmirnov.sd.refactoring.servlet.AddProductServlet;
 import ru.masmirnov.sd.refactoring.servlet.GetProductsServlet;
 import ru.masmirnov.sd.refactoring.servlet.QueryServlet;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
 /**
  * @author Mikhail Smirnov
  */
 public class Main {
+
+    public static final int PORT = 8081;
+
     public static void main(String[] args) throws Exception {
-        try (Connection c = DriverManager.getConnection("jdbc:sqlite:test.db")) {
-            String sql = "CREATE TABLE IF NOT EXISTS PRODUCT" +
-                    "(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                    " NAME           TEXT    NOT NULL, " +
-                    " PRICE          INT     NOT NULL)";
-            Statement stmt = c.createStatement();
+        DB.executeSQLUpdate(DB.CREATE_TABLE);
 
-            stmt.executeUpdate(sql);
-            stmt.close();
-        }
-
-        Server server = new Server(8081);
+        Server server = new Server(PORT);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
@@ -40,4 +30,5 @@ public class Main {
         server.start();
         server.join();
     }
+
 }

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class ServerTest {
 
-    private static final String SERVER = "http://localhost:8081/";
+    private static final String SERVER = "http://localhost:" + Main.PORT + "/";
     private static final Random RND = new Random();
     private static final int RANDOM_NAME_BOUND = 1_000_000_000;
 
