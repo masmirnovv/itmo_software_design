@@ -1,12 +1,8 @@
 package ru.masmirnov.sd.refactoring.servlet;
 
-import ru.masmirnov.sd.refactoring.DB;
-import ru.masmirnov.sd.refactoring.Product;
+import ru.masmirnov.sd.refactoring.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,51 +12,37 @@ import java.util.Optional;
 public class QueryServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         String command = request.getParameter("command");
+        CustomHttpResponse re = new CustomHttpResponse();
 
         if ("max".equals(command)) {
             List<Product> maxList = DB.executeSQLQuery(DB.SELECT_MAX, DB::collectProducts);
 
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("<h1>Product with max price: </h1>");
+            re.addHeader("Product with max price: ", 1);
             for (Product max : maxList) {
-                response.getWriter().println(max.getName() + "\t" + max.getPrice() + "</br>");
+                re.addLine(max.getName() + "\t" + max.getPrice() + "</br>");
             }
-            response.getWriter().println("</body></html>");
         } else if ("min".equals(command)) {
             List<Product> minList = DB.executeSQLQuery(DB.SELECT_MIN, DB::collectProducts);
 
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("<h1>Product with min price: </h1>");
+            re.addHeader("Product with min price: ", 1);
             for (Product min : minList) {
-                response.getWriter().println(min.getName() + "\t" + min.getPrice() + "</br>");
+                re.addLine(min.getName() + "\t" + min.getPrice() + "</br>");
             }
-            response.getWriter().println("</body></html>");
         } else if ("sum".equals(command)) {
             Optional<Long> sum = DB.executeSQLQuery(DB.CALC_SUM, DB::extractLong);
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("Summary price: ");
-            if (sum.isPresent()) {
-                response.getWriter().println(sum.get());
-            }
-            response.getWriter().println("</body></html>");
+            re.addLine("Summary price: ");
+            sum.ifPresent(re::addLine);
         } else if ("count".equals(command)) {
             Optional<Long> count = DB.executeSQLQuery(DB.CALC_COUNT, DB::extractLong);
-
-            response.getWriter().println("<html><body>");
-            response.getWriter().println("Number of products: ");
-            if (count.isPresent()) {
-                response.getWriter().println(count.get());
-            }
-            response.getWriter().println("</body></html>");
+            re.addLine("Number of products: ");
+            count.ifPresent(re::addLine);
         } else {
-            response.getWriter().println("Unknown command: " + command);
+            re.addLine("Unknown command: " + command);
         }
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
+        re.commit(response);
     }
 
 }

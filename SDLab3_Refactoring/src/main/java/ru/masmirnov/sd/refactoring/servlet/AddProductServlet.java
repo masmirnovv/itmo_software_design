@@ -1,12 +1,8 @@
 package ru.masmirnov.sd.refactoring.servlet;
 
-import ru.masmirnov.sd.refactoring.DB;
-import ru.masmirnov.sd.refactoring.Product;
+import ru.masmirnov.sd.refactoring.*;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import javax.servlet.http.*;
 
 /**
  * @author Mikhail Smirnov
@@ -14,14 +10,13 @@ import java.io.IOException;
 public class AddProductServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         Product product = new Product(
                 request.getParameter("name"),
                 Long.parseLong(request.getParameter("price")));
         DB.executeSQLUpdate(DB.addProduct(product));
 
-        response.setContentType("text/html");
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.getWriter().println("OK");
+        CustomHttpResponse re = new CustomHttpResponse("OK");
+        re.commit(response);
     }
 }

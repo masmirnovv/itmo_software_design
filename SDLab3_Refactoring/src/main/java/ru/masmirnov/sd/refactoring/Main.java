@@ -1,11 +1,8 @@
 package ru.masmirnov.sd.refactoring;
 
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
-import ru.masmirnov.sd.refactoring.servlet.AddProductServlet;
-import ru.masmirnov.sd.refactoring.servlet.GetProductsServlet;
-import ru.masmirnov.sd.refactoring.servlet.QueryServlet;
+import org.eclipse.jetty.servlet.*;
+import ru.masmirnov.sd.refactoring.servlet.*;
 
 /**
  * @author Mikhail Smirnov
