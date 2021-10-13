@@ -9,12 +9,10 @@ import ru.masmirnov.sd.refactoring.servlet.*;
  */
 public class Main {
 
-    public static final int PORT = 8081;
-
     public static void main(String[] args) throws Exception {
         DB.executeSQLUpdate(DB.CREATE_TABLE);
 
-        Server server = new Server(PORT);
+        Server server = new Server(8081);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");

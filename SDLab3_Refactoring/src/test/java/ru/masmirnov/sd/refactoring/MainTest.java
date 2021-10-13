@@ -2,7 +2,9 @@ package ru.masmirnov.sd.refactoring;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -11,14 +13,34 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class ServerTest {
+public class MainTest {
 
-    private static final String SERVER = "http://localhost:" + Main.PORT + "/";
+    private static final String SERVER = "http://localhost:8081/";
     private static final Random RND = new Random();
     private static final int RANDOM_NAME_BOUND = 1_000_000_000;
 
     private static final int SUM_IDX = 2, COUNT_IDX = 3;
     private static final int MIN_MAX_PRODUCT_IDX = 4, MIN_MAX_PRICE_IDX = 5;
+
+
+    private static Thread serverThread;
+
+    @BeforeAll
+    static void startServer() {
+        serverThread = new Thread(() -> {
+            try {
+                Main.main(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        serverThread.start();
+    }
+
+    @AfterAll
+    static void stopServer() {
+        serverThread.interrupt();
+    }
 
 
     @Test
