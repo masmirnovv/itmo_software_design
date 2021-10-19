@@ -2,6 +2,6 @@
 out
 *.iml
 /*/target/
-/test.db
 /SDLab2_*/
+/SDLab3_*/test.db
 /SDLab5_*/
