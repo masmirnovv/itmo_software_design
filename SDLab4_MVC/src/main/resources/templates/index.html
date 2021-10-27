@@ -1,0 +1,98 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+    <title>TODO List</title>
+    <style>
+        h1 {text-align: center; font: 3em "Segoe UI Light";}
+        h2 {text-align: center; font: 2em "Segoe UI Light";}
+        table {margin-left: auto; margin-right: auto; padding: 2px;"}
+    </style>
+</head>
+<body>
+
+
+<h1>TODO List</h1>
+
+<table style="border-collapse: collapse;">
+    <th:block th:each="entry : ${entries}">
+        <tr>
+            <td th:text="${entry.getId()}" style="color: #2596BE; font: 1em &quot;Segoe UI&quot;"></td>
+            <td th:text="${entry.getDescription()}" style="font: 1em &quot;Segoe UI Light&quot;"></td>
+        </tr>
+        <tr>
+            <td><Label style="color: #2596BE; font: 1em &quot;Segoe UI&quot;">Tags: </Label></td>
+            <td th:text="${entry.getTagsString()}" style="color: #81BFD5; font: 1em &quot;Segoe UI Light&quot;"></td>
+        </tr>
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="100%"></td>
+        </tr>
+    </th:block>
+</table>
+
+<hr>
+
+
+<h2>Show</h2>
+
+<form method="GET" action="/show" th:object="${todoFilter}">
+    <table>
+        <tr>
+            <td><label style="font: 1em &quot;Segoe UI Light&quot;">Tags: </label></td>
+            <td><input type="text" size="28" th:field="*{tagsString}"/></td>
+            <td><label style="font: 1em &quot;Segoe UI Light&quot;">Tags filter:</label></td>
+            <td>
+                <select th:field="*{filter}" style="font: 0.85em &quot;Segoe UI Light&quot;">
+                    <option value="all">All of them</option>
+                    <option value="exist">At least one</option>
+                    <option value="notAll">Not all of them</option>
+                    <option value="notExist">None of them</option>
+                </select>
+            </td>
+            <td><input type="submit" value="Show" style="font: 0.9em &quot;Segoe UI Light&quot;"></td>
+        </tr>
+    </table>
+</form>
+
+<p style="text-align: center; color: #909090; font: 1em &quot;Segoe UI Light&quot;">Tags should be separated by 1 or more spaces</p>
+
+<hr>
+
+
+<h2>Add / Edit </h2>
+
+<form method="POST" action="/put" th:object="${todoEntry}">
+    <table>
+        <tr>
+            <td><label style="font: 1em &quot;Segoe UI Light&quot;">ID:</label></td>
+            <td><input type="text" size="5"  th:field="*{id}"/></td>
+            <td><label style="font: 1em &quot;Segoe UI Light&quot;">Description:</label></td>
+            <td><input type="text" size="60" th:field="*{description}"/></td>
+            <td><label style="font: 1em &quot;Segoe UI Light&quot;">Tags:</label></td>
+            <td><input type="text" size="28" th:field="*{tagsString}"/></td>
+            <td><input type="submit" value="Add or edit" style="font: 0.9em &quot;Segoe UI Light&quot;"></td>
+        </tr>
+    </table>
+</form>
+
+<p style="text-align: center; color: #909090; font: 1em &quot;Segoe UI Light&quot;">Tags should be separated by 1 or more spaces</p>
+
+<hr>
+
+
+<h2>Remove</h2>
+
+<form method="POST" action="/remove" th:object="${todoRemove}">
+    <table>
+        <tr>
+            <td><label style="font: 1em &quot;Segoe UI Light&quot;">ID:</label></td>
+            <td><input type="text" size="5"  th:field="*{id}"/></td>
+            <td><input type="submit" value="Remove" style="font: 0.9em &quot;Segoe UI Light&quot;"></td>
+        </tr>
+    </table>
+</form>
+
+<hr>
+
+
+</body>
+</html>

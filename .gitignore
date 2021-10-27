@@ -1,7 +1,10 @@
-.idea
-out
-*.iml
+/.idea/
+/out/
 /*/target/
+*.iml
+/*/*.iml
+*.db
+/*/*.db
+
 /SDLab2_*/
-/SDLab3_*/test.db
-/SDLab5_*/
+/SDLab*_*_Sample/
