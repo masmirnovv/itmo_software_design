@@ -8,7 +8,6 @@ public class TodoEntry {
 
     private String id;
     private String description;
-    private String tagsString;
 
     private Set<String> tags;
 
@@ -45,7 +44,6 @@ public class TodoEntry {
     }
 
     public void setTagsString(String tagsString) {
-        this.tagsString = tagsString;
         this.tags = TagsUtils.getTagsSet(tagsString);
     }
 

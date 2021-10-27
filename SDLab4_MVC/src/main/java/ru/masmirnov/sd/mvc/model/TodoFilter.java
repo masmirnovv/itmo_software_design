@@ -2,13 +2,10 @@ package ru.masmirnov.sd.mvc.model;
 
 import ru.masmirnov.sd.mvc.utils.TagsUtils;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class TodoFilter {
 
-    private String tagsString;
     private String filter;
 
     private Set<String> tags;
@@ -29,7 +26,6 @@ public class TodoFilter {
     }
 
     public void setTagsString(String tagsString) {
-        this.tagsString = tagsString;
         this.tags = TagsUtils.getTagsSet(tagsString);
     }
 
